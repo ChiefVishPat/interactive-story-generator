@@ -8,7 +8,7 @@ engine = create_engine(
     settings.DATABASE_URL
 )
 
-SessionLocal = sessionmaker(autocomplete=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
@@ -21,4 +21,3 @@ def get_db():
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
-    
