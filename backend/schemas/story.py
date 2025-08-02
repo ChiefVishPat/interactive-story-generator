@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class StoryOptionsSchema(BaseModel):
     text: str
-    node_id: Optional[int] = None
+    node_id: int
 
 
 class StoryNodeBase(BaseModel):
