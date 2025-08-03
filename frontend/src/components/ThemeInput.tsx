@@ -1,10 +1,14 @@
 import { useState } from 'react';
 
-function ThemeInput({ onSubmit }) {
+interface ThemeInputProps {
+    onSubmit: (theme: string) => void;
+}
+
+function ThemeInput({ onSubmit }: ThemeInputProps) {
     const [theme, setTheme] = useState('');
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!theme.trim()) {
@@ -26,7 +30,7 @@ function ThemeInput({ onSubmit }) {
                         type="text"
                         value={theme}
                         onChange={(e) => setTheme(e.target.value)}
-                        placeholder="Enter a theme (e.g. prirates, space, medieval...)"
+                        placeholder="Enter a theme (e.g. pirates, space, medieval, mystery...)"
                         className={error ? 'error' : ''}
                     />
                     {error && <p className="error-text">{error}</p>}
@@ -35,6 +39,20 @@ function ThemeInput({ onSubmit }) {
                     Generate Story
                 </button>
             </form>
+
+            <div className="examples">
+                <h3>Popular themes:</h3>
+                <ul>
+                    <li>Pirates</li>
+                    <li>Space Adventure</li>
+                    <li>Medieval Fantasy</li>
+                    <li>Mystery</li>
+                    <li>Cyberpunk</li>
+                    <li>Zombie Apocalypse</li>
+                    <li>Time Travel</li>
+                    <li>Wild West</li>
+                </ul>
+            </div>
         </div>
     );
 }

@@ -1,4 +1,8 @@
-function LoadingStatus({ theme }) {
+interface LoadingStatusProps {
+    theme: string;
+}
+
+function LoadingStatus({ theme }: LoadingStatusProps) {
     return (
         <div className="loading-container">
             <h2>Generating Your {theme} Story</h2>

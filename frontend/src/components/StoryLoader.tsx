@@ -1,22 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LoadingStatus from './LoadingStatus.jsx';
-import StoryGame from './StoryGame.jsx';
-import { API_BASE_URL } from '../utils.js';
+import LoadingStatus from './LoadingStatus';
+import StoryGame from './StoryGame';
+import { API_BASE_URL } from '../utils';
+import { Story } from '../types/story';
 
 function StoryLoader() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [story, setStory] = useState(null);
+    const [story, setStory] = useState<Story | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        loadStory(id);
+        if (id) {
+            loadStory(id);
+        }
     }, [id]);
 
-    const loadStory = async (storyId) => {
+    const loadStory = async (storyId: string) => {
         setLoading(true);
         setError(null);
 
@@ -26,7 +29,7 @@ function StoryLoader() {
             );
             setStory(response.data);
             setLoading(false);
-        } catch (err) {
+        } catch (err: any) {
             if (err.response?.status === 404) {
                 setError('Story is not found.');
             } else {

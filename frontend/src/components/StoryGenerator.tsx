@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ThemeInput from './ThemeInput.jsx';
-import LoadingStatus from './LoadingStatus.jsx';
-import { API_BASE_URL } from '../utils.js';
+import ThemeInput from './ThemeInput';
+import LoadingStatus from './LoadingStatus';
+import { API_BASE_URL } from '../utils';
 
 function StoryGenerator() {
     const navigate = useNavigate();
     const [theme, setTheme] = useState('');
-    const [jobId, setJobId] = useState(null);
-    const [jobStatus, setJobStatus] = useState(null);
-    const [error, setError] = useState(null);
+    const [jobId, setJobId] = useState<string | null>(null);
+    const [jobStatus, setJobStatus] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        let pollInterval;
+        let pollInterval: NodeJS.Timeout;
 
         if (jobId && jobStatus === 'processing') {
             pollInterval = setInterval(() => {
@@ -29,7 +29,7 @@ function StoryGenerator() {
         };
     }, [jobId, jobStatus]);
 
-    const generateStory = async (theme) => {
+    const generateStory = async (theme: string) => {
         setLoading(true);
         setError(null);
         setTheme(theme);
@@ -46,11 +46,11 @@ function StoryGenerator() {
             pollJobStatus(job_id);
         } catch (e) {
             setLoading(false);
-            setError(`Failed to generate story: ${e.message}`);
+            setError(`Failed to generate story: ${e instanceof Error ? e.message : 'Unknown error'}`);
         }
     };
 
-    const pollJobStatus = async (id) => {
+    const pollJobStatus = async (id: string) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/jobs/${id}`);
             const { status, story_id, error: jobError } = response.data;
@@ -62,21 +62,21 @@ function StoryGenerator() {
                 setError(jobError || 'Failed to generate story');
                 setLoading(false);
             }
-        } catch (e) {
+        } catch (e: any) {
             if (e.response?.status !== 404) {
-                setError(`Failed to check story status: ${e.message}`);
+                setError(`Failed to check story status: ${e instanceof Error ? e.message : 'Unknown error'}`);
                 setLoading(false);
             }
         }
     };
 
-    const fetchStory = async (id) => {
+    const fetchStory = async (id: string) => {
         try {
             setLoading(false);
             setJobStatus('completed');
             navigate(`/story/${id}`);
         } catch (e) {
-            setError(`Failed to load story: ${e.message}`);
+            setError(`Failed to load story: ${e instanceof Error ? e.message : 'Unknown error'}`);
             setLoading(false);
         }
     };

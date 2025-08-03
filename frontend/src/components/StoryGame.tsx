@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react';
+import { Story, StoryNode, StoryOption } from '../types/story';
 
-function StoryGame({ story, onNewStory }) {
-    const [currentNodeId, setCurrentNodeId] = useState(null);
-    const [currentNode, setCurrentNode] = useState(null);
-    const [options, setOptions] = useState([]);
+interface StoryGameProps {
+    story: Story;
+    onNewStory?: () => void;
+}
+
+function StoryGame({ story, onNewStory }: StoryGameProps) {
+    const [currentNodeId, setCurrentNodeId] = useState<string | null>(null);
+    const [currentNode, setCurrentNode] = useState<StoryNode | null>(null);
+    const [options, setOptions] = useState<StoryOption[]>([]);
     const [isEnding, setIsEnding] = useState(false);
     const [isWinningEnding, setIsWinningEnding] = useState(false);
 
@@ -30,7 +36,7 @@ function StoryGame({ story, onNewStory }) {
         }
     }, [currentNodeId, story]);
 
-    const chooseOption = (optionId) => {
+    const chooseOption = (optionId: string) => {
         setCurrentNodeId(optionId);
     };
 
