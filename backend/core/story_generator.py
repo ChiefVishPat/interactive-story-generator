@@ -16,7 +16,7 @@ class StoryGenerator:
     @classmethod
     def _get_llm(cls):
         OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-        return ChatOpenAI(model="gpt-4o-mini", api_key=OPENAI_API_KEY)
+        return ChatOpenAI(model="gpt-4.1-nano-2025-04-14", api_key=OPENAI_API_KEY)
     
     @classmethod
     def generate_story(cls, db: Session, session_id: str, theme: str = "fantasy")-> Story:
